@@ -1,0 +1,150 @@
+body{
+    text-align: center;
+}
+#name{
+    margin-top: 50px;
+    border: 1px gainsboro solid;
+    border-radius: 5px;
+    padding: 3px;
+}
+#go{
+    border-radius: 20px;   
+}
+.button{
+    width: 600px;
+    height: 175px;
+    border-radius: 25px;
+    background-color: rgba(215, 179, 179, 0.512);
+    margin: auto;
+}
+.inf{
+    text-align: left;
+    margin-left: 45%;
+    padding-top: 20px;
+    padding-bottom: 0PX;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+.ii{
+    height: 145px;
+    position: absolute;
+    margin-top: 15px;
+    left: 37%;
+}
+hr{
+    width: 350px;
+    margin-top: 20px ;
+}
+.bgb{
+    border-radius: 20px;
+    margin-left:70% ;
+    background-color: whitesmoke;
+    color: rgba(215, 179, 179);
+    border: none;
+    font-weight: bold;
+    padding: 10px;
+}
+#bbb{
+    height: 30px;
+    border-radius: 50px;
+    border-color: #aaa;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 5%;
+    
+}
+.line{
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    cursor: pointer;
+    display: block;
+    padding: 16px;
+    position: fixed;
+    z-index: 2;
+}
+.line .menu,
+.line .menu::before,
+.line .menu::after{
+    background: #222;
+    content: '';
+    display: block;
+    height: 1px;
+    position: absolute;
+    transition: background ease .3s,top ease .3s .3s,transform ease .3s;
+    width: 20px;
+}
+.line .menu{
+    left: 18px;
+    top: 27px;
+}
+.line .menu::before{
+    top:-6px;
+}
+.line .menu::after{
+    top:6px;
+}
+#menu:checked+.line .menu{
+    background: transparent;
+}
+#menu:checked+.line .menu::before{
+    transform: rotate(45deg);
+}
+#menu:checked+.line .menu::after{
+    transform: rotate(-45deg);
+}
+#menu:checked+.line .menu::after,
+#menu:checked+.line .menu::before{
+    top: 0;
+    transition: top ease .3s,
+    transform ease .3s .3s;
+}
+#menu:checked ~ .menu-list {
+    width: 200px;
+}
+
+.menu-list {
+    width: 60px;
+    height: 200px;
+    background: transparent;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, .1); */
+    padding-top: 60px;
+    position: fixed;
+    z-index: 1;
+    transition: all .6s;
+    overflow: hidden;
+}
+/*
+選單向外推
+*/
+.menu-list ul {
+    list-style: none;
+    margin-left:70px;
+    padding: 0;
+}
+.menu-list ul>li{
+    display:block;
+    width:100px;
+}
+/*
+隱藏核許框
+*/
+input#menu {
+ display: none;
+}
+li{
+    
+    margin: 15px 0px;
+    text-align: left;
+}
+.nav-box{
+position: absolute;
+top: 10px;
+}
+.oc:link,.oc:visited{
+    text-decoration: none;
+    color:gray;
+}
+.oc:active,.oc:hover{
+    font-weight: bold;
+}
