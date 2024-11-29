@@ -9,10 +9,11 @@ app = Flask(__name__, static_folder='static')
 
 def get_db_connection():
     conn = mysql.connector.connect(
-        host="localhost",
-        user="s1101549",
-        password="s1101549",
-        database="movie_db"
+        host="35.234.30.36",
+        user="root",
+        password="showtime-1",
+        database="movie_db",
+        port=3306
     )
     return conn
 
