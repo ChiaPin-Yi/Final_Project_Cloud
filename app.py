@@ -13,7 +13,6 @@ def get_db_connection():
         user="root",
         password="showtime-1",
         database="movie_db",
-        port=3306
     )
     return conn
 
@@ -324,4 +323,4 @@ def reservation():
 
 
 if __name__ == "__main__":
-    app.run(port=8080)
+    app.run(host='0.0.0.0',port=8080)
