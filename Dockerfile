@@ -9,6 +9,12 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
+# 设置 Google 应用凭据环境变量
+ENV GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
+
+# 拷贝服务账号凭据到容器中
+COPY winter-arena-443413-i7-6af757a5ac42.json /app/credentials.json
+
 # 下载 Cloud SQL Proxy 并赋予执行权限
 RUN curl -o /usr/local/bin/cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.14.1/cloud-sql-proxy.linux.amd64 \
     && chmod +x /usr/local/bin/cloud-sql-proxy
