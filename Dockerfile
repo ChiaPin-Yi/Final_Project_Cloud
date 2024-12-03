@@ -5,28 +5,22 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # 更新系统并安装必要工具
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# 设置 Google 应用凭据环境变量
-ENV GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
-
-# 拷贝服务账号凭据到容器中
-COPY winter-arena-443413-i7-6af757a5ac42.json /app/credentials.json
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl && \
+    rm -rf /var/lib/apt/lists/*
 
 # 下载 Cloud SQL Proxy 并赋予执行权限
-RUN curl -o /usr/local/bin/cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.14.1/cloud-sql-proxy.linux.amd64 \
-    && chmod +x /usr/local/bin/cloud-sql-proxy
+RUN curl -o /usr/local/bin/cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.14.1/cloud-sql-proxy.linux.amd64 && \
+    chmod +x /usr/local/bin/cloud-sql-proxy
 
 # 复制项目文件到容器中
 COPY . /app
 
-# 安装项目依赖
+# 安装 Python 项目依赖
 RUN pip install --no-cache-dir flask mysql-connector-python
 
-# 暴露应用运行的端口（根据 Flask 应用的端口，默认为 8080）
+# 暴露 Flask 应用运行的端口
 EXPOSE 8080
 
 # 启动 Cloud SQL Proxy 和 Flask 应用
-CMD ["sh", "-c", "cloud-sql-proxy -instances=winter-arena-443413-i7:asia-east1:showtime-1=tcp:3306 & python3 app.py"]
+CMD ["sh", "-c", "cloud-sql-proxy -instances=winter-arena-443413-i7:asia-east1:showtime-1=tcp:127.0.0.1:3306 & python3 app.py"]
