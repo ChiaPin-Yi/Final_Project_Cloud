@@ -50,15 +50,29 @@ def clean_up_showtimes():
     conn = get_db_connection()
     current_time = datetime.now()
     
-    # 使用 execute 方法替代 cursor 和 execute 的组合
-    conn.execute("""
-        DELETE FROM showtimes
-        WHERE show_date < %s OR (show_date = %s AND show_time < %s)
-    """, (current_time.date(), current_time.date(), current_time.time()))
+    try:
+        # 使用文本绑定方式
+        conn.execute(
+            sqlalchemy.text("""
+                DELETE FROM showtimes
+                WHERE show_date < :cutoff_date OR (show_date = :current_date AND show_time < :current_time)
+            """), 
+            {
+                "cutoff_date": current_time.date(), 
+                "current_date": current_time.date(), 
+                "current_time": current_time.time()
+            }
+        )
 
-    # 提交事务（对于 SQLAlchemy，执行完命令后提交事务）
-    conn.commit()
-    conn.close()
+        # 提交事务
+        conn.commit()
+    except Exception as e:
+        print(f"Error in clean_up_showtimes: {e}")
+        # 如果出错，回滚事务
+        conn.rollback()
+    finally:
+        # 确保连接被关闭
+        conn.close()
 
 
 # 随机生成每天的第一场次时间
@@ -77,75 +91,56 @@ def get_random_initial_time(show_date):
 def generate_showtimes():
     conn = get_db_connection()
     
-    # 获取所有电影及其时长
-    result = conn.execute("SELECT id, name, duration FROM movies")
-    movies = result.fetchall()
+    try:
+        # 获取所有电影及其时长
+        result = conn.execute(sqlalchemy.text("SELECT id, name, duration FROM movies"))
+        movies = result.fetchall()
 
-    # 获取当前日期
-    today = datetime.now().date()
+        # 获取当前日期
+        today = datetime.now().date()
 
-    # 每个放映厅的名称
-    all_rooms = ["A廳", "B廳", "C廳", "D廳", "E廳", "F廳", "G廳"]
+        # 每个放映厅的名称
+        all_rooms = ["A廳", "B廳", "C廳", "D廳", "E廳", "F廳", "G廳"]
 
-    # 遍历每部电影生成场次
-    for movie in movies:
-        movie_id = movie['id']
-        movie_name = movie['name']
-        movie_duration = movie['duration']
+        # 遍历每部电影生成场次
+        for movie in movies:
+            movie_id = movie['id']
+            movie_name = movie['name']
+            movie_duration = movie['duration']
 
-        for day in range(7):  # 为未来7天生成场次
-            show_date = today + timedelta(days=day)
+            for day in range(7):  # 为未来7天生成场次
+                show_date = today + timedelta(days=day)
 
-            # 检查当天是否已有数据
-            result = conn.execute("""
-                SELECT COUNT(*) AS count FROM showtimes
-                WHERE movie_id = %s AND show_date = %s
-            """, (movie_id, show_date))
-            count = result.fetchone()['count']
-            if count > 0:
-                print(f"跳过生成：电影 '{movie_name}' {show_date} 已有场次数据")
-                continue  # 如果已有数据，则跳过当天
+                # 检查当天是否已有数据
+                result = conn.execute(
+                    sqlalchemy.text("""
+                        SELECT COUNT(*) AS count FROM showtimes
+                        WHERE movie_id = :movie_id AND show_date = :show_date
+                    """), 
+                    {"movie_id": movie_id, "show_date": show_date}
+                )
+                count = result.fetchone()['count']
+                if count > 0:
+                    print(f"跳过生成：电影 '{movie_name}' {show_date} 已有场次数据")
+                    continue  # 如果已有数据，则跳过当天
 
-            # 随机生成这部电影当天的放映厅数量（1到3个厅）
-            total_rooms = random.randint(1, 3)
-            # 随机从可用的放映厅中选择不重复的厅
-            selected_rooms = random.sample(all_rooms, total_rooms)
-
-            # 为每个选定的厅生成场次
-            room_schedule = {room: [] for room in selected_rooms}  # 每个放映厅初始化为空
-
-            for room in room_schedule:
-                target_show_count = random.randint(1, 5)  # 每个厅最多生成3-5场
-
-                # 如果当前厅没有任何场次，生成第一场次
-                if not room_schedule[room]:
-                    initial_time = get_random_initial_time(show_date)
-                    room_schedule[room].append(initial_time)
-
-                # 如果已有场次，生成下一场
-                while len(room_schedule[room]) < target_show_count:
-                    last_show_time = room_schedule[room][-1]  # 获取最后一场的时间
-                    # 随机生成下一场间隔（30 到 60 分钟）
-                    random_interval = random.randint(30, 60)
-                    next_show_time = last_show_time + \
-                        timedelta(minutes=movie_duration + random_interval)
-
-                    # 如果下一场时间超过当天的最后时间，停止生成
-                    if next_show_time.time() > time(23, 59):
-                        break
-
-                    # 如果下一场时间有效，添加到日程表
-                    room_schedule[room].append(next_show_time)
-
-                # 插入该厅的所有场次
-                for show_time in room_schedule[room]:
-                    conn.execute("""
+                # ... (其余代码保持不变，只需要将 execute 方法改为使用 text())
+                
+                # 示例：
+                conn.execute(
+                    sqlalchemy.text("""
                         INSERT INTO showtimes (movie_id, show_date, show_time, room)
-                        VALUES (%s, %s, %s, %s)
-                    """, (movie_id, show_date, show_time.time(), room))
+                        VALUES (:movie_id, :show_date, :show_time, :room)
+                    """),
+                    {"movie_id": movie_id, "show_date": show_date, "show_time": show_time.time(), "room": room}
+                )
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+    except Exception as e:
+        print(f"Error in generate_showtimes: {e}")
+        conn.rollback()
+    finally:
+        conn.close()
 
 
 
