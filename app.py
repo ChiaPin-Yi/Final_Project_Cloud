@@ -3,19 +3,32 @@ from flask import request
 import mysql.connector
 from datetime import datetime, timedelta, time
 import random
+from google.cloud.sql.connector import Connector
+import sqlalchemy
 
 app = Flask(__name__, static_folder='static')
 
+# 初始化 Connector 对象
+connector = Connector()
 
-def get_db_connection():
-    conn = mysql.connector.connect(
-        host="127.0.0.1",
-        user="root",
-        password="showtime-1",
-        database="movie_db",
+def getconn():
+    return connector.connect(
+        "winter-arena-443413-i7:asia-east1:showtime-1",  # 替换为您的实例连接名称
+        "pymysql",  # 指定连接器类型
+        user="root",  # 数据库用户名
+        password="showtime-1",  # 直接填写密码
+        db="movie_db",  # 数据库名称
     )
-    return conn
 
+# 创建连接池
+pool = sqlalchemy.create_engine(
+    "mysql+pymysql://",  # 使用 pymysql
+    creator=getconn,  # 指定连接创建器
+)
+
+# 替换 Flask 应用中的 `get_db_connection` 方法
+def get_db_connection():
+    return pool.connect()
 # 返回字典格式的結果
 
 
