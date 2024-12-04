@@ -28,7 +28,9 @@ pool = sqlalchemy.create_engine(
 
 # 替换 Flask 应用中的 `get_db_connection` 方法
 def get_db_connection():
+    # 返回一个 sqlalchemy 连接对象
     return pool.connect()
+
 # 返回字典格式的結果
 
 
@@ -46,14 +48,18 @@ def get_moviesource():
 
 def clean_up_showtimes():
     conn = get_db_connection()
-    cursor = conn.cursor()
     current_time = datetime.now()
-    cursor.execute("""
+    
+    # 使用 execute 方法替代 cursor 和 execute 的组合
+    conn.execute("""
         DELETE FROM showtimes
         WHERE show_date < %s OR (show_date = %s AND show_time < %s)
     """, (current_time.date(), current_time.date(), current_time.time()))
+
+    # 提交事务（对于 SQLAlchemy，执行完命令后提交事务）
     conn.commit()
     conn.close()
+
 
 # 随机生成每天的第一场次时间
 
@@ -70,11 +76,10 @@ def get_random_initial_time(show_date):
 
 def generate_showtimes():
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-
+    
     # 获取所有电影及其时长
-    cursor.execute("SELECT id, name, duration FROM movies")
-    movies = cursor.fetchall()
+    result = conn.execute("SELECT id, name, duration FROM movies")
+    movies = result.fetchall()
 
     # 获取当前日期
     today = datetime.now().date()
@@ -92,12 +97,12 @@ def generate_showtimes():
             show_date = today + timedelta(days=day)
 
             # 检查当天是否已有数据
-            cursor.execute("""
+            result = conn.execute("""
                 SELECT COUNT(*) AS count FROM showtimes
                 WHERE movie_id = %s AND show_date = %s
             """, (movie_id, show_date))
-            result = cursor.fetchone()
-            if result['count'] > 0:
+            count = result.fetchone()['count']
+            if count > 0:
                 print(f"跳过生成：电影 '{movie_name}' {show_date} 已有场次数据")
                 continue  # 如果已有数据，则跳过当天
 
@@ -134,13 +139,14 @@ def generate_showtimes():
 
                 # 插入该厅的所有场次
                 for show_time in room_schedule[room]:
-                    cursor.execute("""
+                    conn.execute("""
                         INSERT INTO showtimes (movie_id, show_date, show_time, room)
                         VALUES (%s, %s, %s, %s)
                     """, (movie_id, show_date, show_time.time(), room))
 
     conn.commit()
     conn.close()
+
 
 
 @app.route("/api/movie/<int:movie_id>/showtimes", methods=["GET"])
