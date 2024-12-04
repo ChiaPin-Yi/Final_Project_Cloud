@@ -11,6 +11,7 @@ app = Flask(__name__, static_folder='static')
 # 初始化 Connector 对象
 connector = Connector()
 
+
 def getconn():
     return connector.connect(
         "winter-arena-443413-i7:asia-east1:showtime-1",  # 替换为您的实例连接名称
@@ -20,6 +21,7 @@ def getconn():
         db="movie_db",  # 数据库名称
     )
 
+
 # 创建连接池
 pool = sqlalchemy.create_engine(
     "mysql+pymysql://",  # 使用 pymysql
@@ -27,6 +29,8 @@ pool = sqlalchemy.create_engine(
 )
 
 # 替换 Flask 应用中的 `get_db_connection` 方法
+
+
 def get_db_connection():
     # 返回一个 sqlalchemy 连接对象
     return pool.connect()
@@ -37,9 +41,10 @@ def get_db_connection():
 @app.route('/api/moviesource', methods=['GET'])
 def get_moviesource():
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT id, name, src, duration AS time FROM movies")
-    movies = cursor.fetchall()
+    result = conn.execute(
+        sqlalchemy.text("SELECT id, name, src, duration AS time FROM movies")
+    )
+    movies = result.fetchall()
     conn.close()
     return jsonify(movies)
 
@@ -49,17 +54,17 @@ def get_moviesource():
 def clean_up_showtimes():
     conn = get_db_connection()
     current_time = datetime.now()
-    
+
     try:
         # 使用文本绑定方式
         conn.execute(
             sqlalchemy.text("""
                 DELETE FROM showtimes
                 WHERE show_date < :cutoff_date OR (show_date = :current_date AND show_time < :current_time)
-            """), 
+            """),
             {
-                "cutoff_date": current_time.date(), 
-                "current_date": current_time.date(), 
+                "cutoff_date": current_time.date(),
+                "current_date": current_time.date(),
                 "current_time": current_time.time()
             }
         )
@@ -90,10 +95,11 @@ def get_random_initial_time(show_date):
 
 def generate_showtimes():
     conn = get_db_connection()
-    
+
     try:
         # 获取所有电影及其时长
-        result = conn.execute(sqlalchemy.text("SELECT id, name, duration FROM movies"))
+        result = conn.execute(sqlalchemy.text(
+            "SELECT id, name, duration FROM movies"))
         movies = result.fetchall()
 
         # 获取当前日期
@@ -116,7 +122,7 @@ def generate_showtimes():
                     sqlalchemy.text("""
                         SELECT COUNT(*) AS count FROM showtimes
                         WHERE movie_id = :movie_id AND show_date = :show_date
-                    """), 
+                    """),
                     {"movie_id": movie_id, "show_date": show_date}
                 )
                 count = result.fetchone()['count']
@@ -125,14 +131,15 @@ def generate_showtimes():
                     continue  # 如果已有数据，则跳过当天
 
                 # ... (其余代码保持不变，只需要将 execute 方法改为使用 text())
-                
+
                 # 示例：
                 conn.execute(
                     sqlalchemy.text("""
                         INSERT INTO showtimes (movie_id, show_date, show_time, room)
                         VALUES (:movie_id, :show_date, :show_time, :room)
                     """),
-                    {"movie_id": movie_id, "show_date": show_date, "show_time": show_time.time(), "room": room}
+                    {"movie_id": movie_id, "show_date": show_date,
+                        "show_time": show_time.time(), "room": room}
                 )
 
         conn.commit()
@@ -143,11 +150,9 @@ def generate_showtimes():
         conn.close()
 
 
-
 @app.route("/api/movie/<int:movie_id>/showtimes", methods=["GET"])
 def get_movie_showtimes(movie_id):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
 
     # 获取请求中的日期参数
     date_param = request.args.get("date", None)
@@ -161,13 +166,16 @@ def get_movie_showtimes(movie_id):
 
     print(f"Received date_param: {date_param}")
 
-    cursor.execute("""
-    SELECT show_date, show_time, room
-    FROM showtimes
-    WHERE movie_id = %s AND show_date = %s
-    ORDER BY show_time
-    """, (movie_id, date))
-    showtimes = cursor.fetchall()
+    result = conn.execute(
+        sqlalchemy.text("""
+        SELECT show_date, show_time, room
+        FROM showtimes
+        WHERE movie_id = :movie_id AND show_date = :date
+        ORDER BY show_time
+        """),
+        {"movie_id": movie_id, "date": date}
+    )
+    showtimes = result.fetchall()
     print(f"Querying showtimes for movie_id: {movie_id}, date: {date}")
 
     conn.close()
@@ -206,18 +214,25 @@ def create_reservation():
     # 打印接收到的 JSON 数据
     print("Received data:", data)
     conn = get_db_connection()
-    cursor = conn.cursor()
 
     # 將 seat 列表轉換為逗號分隔的字符串
     seats = ",".join(data['seat']) if isinstance(
         data['seat'], list) else data['seat']
 
     # 插入數據到資料庫
-    cursor.execute(
-        "INSERT INTO reservations (movie_id, user_name, reservation_date, reservation_time, seats, tickets) "
-        "VALUES (%s, %s, %s, %s, %s, %s)",
-        (data['movie_id'], data['user_name'],
-         data['date'], data['time'], seats, data['ticket'])
+    conn.execute(
+        sqlalchemy.text("""
+        INSERT INTO reservations (movie_id, user_name, reservation_date, reservation_time, seats, tickets)
+        VALUES (:movie_id, :user_name, :reservation_date, :reservation_time, :seats, :tickets)
+        """),
+        {
+            "movie_id": data['movie_id'],
+            "user_name": data['user_name'],
+            "reservation_date": data['date'],
+            "reservation_time": data['time'],
+            "seats": seats,
+            "tickets": data['ticket']
+        }
     )
     conn.commit()
     conn.close()
@@ -241,32 +256,31 @@ def get_reservations():
 
     try:
         conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
 
         # 动态构造查询语句
         query = "SELECT * FROM reservations WHERE 1=1"
-        params = []
+        params = {}
 
         if user_name:
-            query += " AND user_name = %s"
-            params.append(user_name)
+            query += " AND user_name = :user_name"
+            params["user_name"] = user_name
         if movie_id:
-            query += " AND movie_id = %s"
-            params.append(movie_id)
+            query += " AND movie_id = :movie_id"
+            params["movie_id"] = movie_id
         if date:
-            query += " AND reservation_date = %s"
-            params.append(date)
+            query += " AND reservation_date = :reservation_date"
+            params["reservation_date"] = date
         if time:
-            query += " AND reservation_time = %s"
-            params.append(time)
+            query += " AND reservation_time = :reservation_time"
+            params["reservation_time"] = time
 
         # 打印查询语句和参数
         print("SQL Query:", query)
         print("Parameters:", params)
 
         # 执行查询
-        cursor.execute(query, params)
-        reservations = cursor.fetchall()
+        result = conn.execute(sqlalchemy.text(query), params)
+        reservations = result.fetchall()
 
         # 对 timedelta 类型数据进行处理
         for reservation in reservations:
@@ -279,7 +293,7 @@ def get_reservations():
                 reservation['reservation_time'] = f"{hours:02}:{minutes:02}:{seconds:02}"
 
         conn.close()
-        return jsonify(reservations)
+        return jsonify([dict(row) for row in reservations])
     except Exception as e:
         print("Error:", e)  # 打印错误信息
         return jsonify({"error": str(e)}), 500
@@ -300,15 +314,17 @@ def delete_reservation():
 
     try:
         conn = get_db_connection()
-        cursor = conn.cursor()
 
         # 执行删除操作
-        cursor.execute("DELETE FROM reservations WHERE id = %s",
-                       (reservation_id,))
+        result = conn.execute(
+            sqlalchemy.text(
+                "DELETE FROM reservations WHERE id = :reservation_id"),
+            {"reservation_id": reservation_id}
+        )
         conn.commit()
 
         # 检查是否真的删除了记录
-        if cursor.rowcount == 0:
+        if result.rowcount == 0:
             return jsonify({"error": "Reservation not found"}), 404
 
         # 可选：记录删除原因到日志或数据库（如有需要）
@@ -337,4 +353,4 @@ def reservation():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',port=8080)
+    app.run(host='0.0.0.0', port=8080)
