@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # 复制当前目录内容到工作目录
 COPY . /app
-
+pip install "cloud-sql-python-connector[pymysql]"
 # 安装依赖
 RUN pip install --no-cache-dir flask==2.2.5 mysql-connector-python==8.0.33
 
