@@ -5,10 +5,13 @@ from datetime import datetime, timedelta, time
 import random
 from google.cloud.sql.connector import Connector
 import sqlalchemy
+import os
 
 app = Flask(__name__, static_folder='static')
 
 # 初始化 Connector 对象
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"winter-arena-443413-i7-e4bed9856be3.json"
+
 connector = Connector()
 
 
@@ -44,7 +47,7 @@ def get_moviesource():
     result = conn.execute(
         sqlalchemy.text("SELECT id, name, src, duration AS time FROM movies")
     )
-    movies = result.fetchall()
+    movies = [dict(row._mapping) for row in result.fetchall()]
     conn.close()
     return jsonify(movies)
 
@@ -100,7 +103,7 @@ def generate_showtimes():
         # 获取所有电影及其时长
         result = conn.execute(sqlalchemy.text(
             "SELECT id, name, duration FROM movies"))
-        movies = result.fetchall()
+        movies = [dict(row._mapping) for row in result.fetchall()]
 
         # 获取当前日期
         today = datetime.now().date()
@@ -204,7 +207,7 @@ def get_movie_showtimes(movie_id):
         """),
         {"movie_id": movie_id, "date": date}
     )
-    showtimes = result.fetchall()
+    showtimes = [dict(row._mapping) for row in result.fetchall()]
     print(f"Querying showtimes for movie_id: {movie_id}, date: {date}")
 
     conn.close()
@@ -309,7 +312,7 @@ def get_reservations():
 
         # 执行查询
         result = conn.execute(sqlalchemy.text(query), params)
-        reservations = result.fetchall()
+        reservations = [dict(row._mapping) for row in result.fetchall()]
 
         # 对 timedelta 类型数据进行处理
         for reservation in reservations:
