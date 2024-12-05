@@ -10,7 +10,7 @@ import os
 app = Flask(__name__, static_folder='static')
 
 # 初始化 Connector 对象
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"winter-arena-443413-i7-0f22dca6e91b.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"winter-arena-443413-i7-dedcb9cc7a63.json"
 
 connector = Connector()
 
