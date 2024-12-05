@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "winter-arena-443413-i7",
+  "private_key_id": "e4bed9856be3be18b0705a96352d22e27d8e2611",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC5ae1eAPgQoPu3\nq9uJ+05gLXng9MAQEqLnaXn3XTqVWBiiDl/PK3Eb3vo1XwhA/u3XpNbf6R2NpEM1\nPO0PfiTz+3FaeMlq2DpRumJz/1CKjXYduWj8yaRQIeVHRo4ajbusb2zhl3G8cuoA\noOyUX7xFZgV2hkWrIYWLzXriucTj5aWthF/jmqMWE6lfYRI0D9ojaw2YEKC13o2R\nzAvLOPvUfI5Pzz0FaMqVGjhhIn+e+T1uLAqQLIFg+fcYJEXzQgr2v6Rr0BXMgyJf\nS5Ewngx1dR9/it/OpXTVvgZa9WEnQrp32LXyufPVIm60RrDkX9I5+NgiaETmt1e1\n6KWpx4z/AgMBAAECggEAQnji9AIl7RRB2jHfRcMWcK2tFcS5PKnpxEwQwWmnkJYi\nUqsTlzrMVMEmc87rrx2WGGsM6/5vrXGX9LSwio7fYaciFtzZ3RfDJLzNAigk8F9R\n2ss3g/Uolt/oCpsVZBivEV1rLB9206hhEzOeTX1bCohOahUuUfF1Js9WgIU4PLlh\nVC63X3wTzYDrc2ka55vsiScukqPAr+QFmkts1rX+T+mfAKUB6xQG2vrBji/DjgYz\nMo7yJhtmRIqjuJPLpEUzZB2g1un5pasayR7kuvAWrfa0HYlpmc4yuUMQ36tW+L+l\nmW2jr4iF9FpeQrjm24MBxHvuHbxYpuRPrnJva4eosQKBgQD1Itv+4hjBnhNo1lpb\nGuJj9U2h97nDTapY+knlsEsVFk+80Q03ItaSqhdCV+EiSaQTtO4u9kzZgFQJ/V05\n56/B6Tj2vbPNSH8d4CzxEJVLHXe1fhtPEzYRqkYjo75kSgYWnsgjvUeXHgsxFL9v\nVxAfL0MqQwFrqLUbHFZwHjFwMQKBgQDBoYAFSJ5i3uXIDtBf+rs9ix5HWdzDmVjC\ntkF517ctazt1KBfm+RZ11pYbb7AUIgLZVnWp0Wn6ZC6diU8ORGe2zqhc7RhZaGzO\nt+aQMoxIDVsI2JOcv2zU/2XA8R+Ftplzh7QzmXjy4ZHSU6S4/dwnIVUcBsNMxEsR\neM0QUgo0LwKBgEOJfyMSF9AARUi1Bd/j4Eu54dGl9sAgPbaV/pYRpB4DL6TN095E\n8uklg5L7s0NHFrV3O8gkg7fI6151N6Ikev/pyY/xZABC4QLSKI+iCf/P9pNCUzPO\nDy9+wiQ/kM0At/yzcmCmXXr9BAhZtwRt8DsnQlH6dAG9UWhOvmHVb7mBAoGBAI8t\nKEi/5b4eK7K+oX4XHJTpZb5EyGUp4uQ3eDrsM1q2TATZXLNBxEXmIqCu+Xgpngmv\nUNn9K2wm4AFFItvd4QLf1MbB2ptiB/LjMO23MtukZIgp/RyOv57QKyF8Kl7pIpa2\n5ZyyAyk1emoXx1my/TNCBnju10LQcuG8fYVv5HOpAoGBAIPJfo3CX9ysRTA+H7S+\nDg/Esah3Oa6HgcDrAYt8GfNkRWPpLmSS3p/mMSzAYvwaes2I7gRiIvp1Y80JruH/\n0uK1NaSyZ7jecEHFj4ZdhiE1yPzUog8i0nV+d8CocTz/vs1SErxo/2V0mtGbCAFF\nsV2gt2G0uCiUw73OTutDiq7z\n-----END PRIVATE KEY-----\n",
+  "client_email": "cloud-sql-proxy@winter-arena-443413-i7.iam.gserviceaccount.com",
+  "client_id": "105247067073129400370",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cloud-sql-proxy%40winter-arena-443413-i7.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
