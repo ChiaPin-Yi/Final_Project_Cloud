@@ -1,0 +1,15 @@
+flask==2.2.5
+mysql-connector-python==8.0.33
+cloud-sql-python-connector[pymysql]
+sqlalchemy
+google-generativeai
+pillow
+requests
+SpeechRecognition
+pydub
+librosa
+azure-ai-textanalytics
+azure-ai-translation-text
+azure-cognitiveservices-speech
+line-bot-sdk
+configparser

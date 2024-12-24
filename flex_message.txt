@@ -1,0 +1,98 @@
+{
+    "type": "carousel",
+    "contents": [
+        {
+        "type": "bubble",
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "text",
+                "text": "鄰近影廳",
+                "weight": "bold",
+                "size": "xxl",
+                "gravity": "bottom",
+                "color": "#14746F"
+            }
+            ]
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+            {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "text",
+                    "text": "威尼斯影城",
+                    "align": "center",
+                    "decoration": "none",
+                    "weight": "bold",
+                    "position": "relative",
+                    "color": "#FEFEFA"
+                }
+                ],
+                "backgroundColor": "#14746F",
+                "cornerRadius": "xl",
+                "paddingAll": "md",
+                "action": {
+                "type": "uri",
+                "label": "威尼斯影城",
+                "uri": "https://maps.google.com/?q=320%E6%A1%83%E5%9C%92%E5%B8%82%E4%B8%AD%E5%A3%A2%E5%8D%80%E4%B9%9D%E5%92%8C%E4%B8%80%E8%A1%9748%E8%99%9F3%E6%A8%93"
+                }
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "text",
+                    "text": "統領戲院",
+                    "align": "center",
+                    "decoration": "none",
+                    "weight": "bold",
+                    "position": "relative",
+                    "color": "#14746F"
+                }
+                ],
+                "backgroundColor": "#C0D6DF",
+                "cornerRadius": "xl",
+                "paddingAll": "md",
+                "action": {
+                "type": "uri",
+                "label": "統領戲院",
+                "uri": "https://maps.google.com/?q=330%E6%A1%83%E5%9C%92%E5%B8%82%E6%A1%83%E5%9C%92%E5%8D%80%E4%B8%AD%E6%AD%A3%E8%B7%AF56%E8%99%9F"
+                }
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                {
+                    "type": "text",
+                    "text": "美麗華台茂影城",
+                    "align": "center",
+                    "decoration": "none",
+                    "weight": "bold",
+                    "position": "relative",
+                    "color": "#FEFEFA"
+                }
+                ],
+                "backgroundColor": "#14746F",
+                "cornerRadius": "xl",
+                "paddingAll": "md",
+                "action": {
+                "type": "uri",
+                "label": "美麗華台茂影城",
+                "uri": "https://maps.google.com/?q=338%E6%A1%83%E5%9C%92%E5%B8%82%E8%98%86%E7%AB%B9%E5%8D%80%E5%8D%97%E5%B4%81%E8%B7%AF%E4%B8%80%E6%AE%B5112%E8%99%9F"
+                }
+            }
+            ],
+            "spacing": "xxl"
+        }
+        }
+    ]
+    }

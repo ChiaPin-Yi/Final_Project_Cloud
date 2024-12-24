@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ShowTime</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+
+</head>
+
+<body>
+    <nav class="nav-box">
+        <input type="checkbox" id="menu">
+        <label for="menu" class="line">
+            <div class="menu"></div>
+        </label>
+        <div class="menu-list">
+            <ul>
+                <li><a class="oc" href="{{url_for('home')}}">Booking</a></li>
+                <li><a class="oc" href="{{url_for('reservation')}}">Reservation</a></li>
+                <!--<li><a class="oc" href="{{url_for('gemini')}}">Gemini</a></li>-->
+            </ul>
+        </div>
+    </nav>
+    <div id="center">
+        <h1>Show Time</h1>
+        <div>
+            <div id="homeb">Choose Date <input type="date" id="firstdate" value="" max="" min=""></div>
+            <div id="homeb">Enter Title <select id="moviename"></select></div>
+            <div id="homeb">Search <input type="text" id="firstdate" value="" max="" min=""></div>
+        </div>
+        <!-- <button id="go">Go</button> 
+         <table id="seattable">
+            <tr>
+                <th></th>
+                <th>A</th>
+                <th>B</th>
+                <th></th>
+                <th>C</th>
+                <th>D</th>
+                <th>E</th>
+                <th>F</th>
+                <th>G</th>
+                <th>H</th>
+                <th></th>
+                <th>I</th>
+                <th>J</th>
+            </tr>
+            <tr>
+                <th>0</th>
+                <td></td>
+                <td></td>
+                <th></th>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <th></th>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>1</th>
+                <td></td>
+                <td></td>
+                <th></th>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <th></th>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>2</th>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <th></th>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <th></th>
+                <td class="seat"></td>
+                <td class="seat"></td>
+            </tr>
+            <tr>
+                <th>3</th>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <th></th>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <td class="seat"></td>
+                <th></th>
+                <td class="seat"></td>
+                <td class="seat"></td>
+            </tr>
+        </table>
+        <div id="div1">
+            <img id="onlyimg" src="">
+            <div id="indiv1">
+            <h1 id="onlyh"></h1>
+            <p id="onlyp"></p>
+        </div>
+        </div>
+        <div id="ticketprice">
+            <p id="tp"><b>TICKET PRICE:</b>&ensp;&ensp;&ensp;&ensp;Early Bird Ticket &ensp;$220 &ensp;&ensp;&ensp;&ensp;Adult Ticket&ensp; $290 &ensp;&ensp;&ensp;&ensp;  Concession Ticket &ensp;$270</p>
+        </div>
+        <div id="courseTable"></div>
+        <div id="bookingpage">
+        </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="{{url_for('static', filename='js/date.js')}}"></script>
+        <script src="{{url_for('static', filename='js/main.js')}}"></script>
+        
+    </body>
+</html>

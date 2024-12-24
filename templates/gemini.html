@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/gemini.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    </head>
+    <body>
+        <nav class="nav-box">
+            <input type="checkbox" id="menu">
+            <label for="menu" class="line">
+                <div class="menu"></div>
+            </label>
+        <div class="menu-list">
+            <ul>
+                <li><a class="oc" href="{{url_for('home')}}">Booking</a></li>
+                <li><a class="oc" href="{{url_for('reservation')}}">Reservation</a></li>
+                <li><a class="oc" href="{{url_for('gemini')}}">Gemini</a></li>
+            </ul>
+        </div></nav>
+        <div id="center">
+            <div id="dialog"></div>
+            <textarea id="message" name="message" placeholder="Enter your message"></textarea>
+            <button class="custom-button" id="attachButton">Attach File</button>
+            <input type="file" id="fileInput" class="hidden-input">
+        <button id="submit">Send</button>
+        <script src="//unpkg.com/jquery"></script>
+        <script src="{{url_for('static', filename='js/gemini.js')}}"></script>
+    </body> 
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Reservation</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/reservation.css')}}">
+ 
+    </head>
+    <body>
+        <nav class="nav-box">
+            <input type="checkbox" id="menu">
+            <label for="menu" class="line">
+                <div class="menu"></div>
+            </label>
+        <div class="menu-list">
+            <ul>
+                <li><a class="oc" href="{{url_for('home')}}">Booking</a></li>
+                <li><a class="oc" href="{{url_for('reservation')}}">Reservation</a></li>
+                <li><a class="oc" href="{{url_for('gemini')}}">Gemini</a></li>
+            </ul>
+        </div></nav>
+        <h1>Booking history</h1>
+        Enter your name :&ensp; <input id="name" type="text">
+        <button id="go">Go</button>
+        <div id="result"></div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="{{url_for('static', filename='js/reservation.js')}}"></script>
+        <input type="button" id="bbb" value="BACK" onclick="location.href=''">
+    </body>
+</html>

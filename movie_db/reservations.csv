@@ -1,0 +1,4 @@
+"id","movie_id","user_name","reservation_date","reservation_time","seats","tickets"
+2,2,"zoe","2024-12-12","11:30:00","205,206,306",3
+3,5,"Unknown","2024-12-12","11:45:00","1",1
+4,5,"sri7XHBE","2024-12-12","11:45:00","1",1

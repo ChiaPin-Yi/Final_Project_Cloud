@@ -1,0 +1,291 @@
+body{
+    text-align: center;
+}
+select,input{
+    display: inline-block;
+    width: 150px;
+    position: relative;
+    vertical-align: middle;
+    padding: 0;
+    overflow: hidden;
+    background-color: #fff;
+    color: #555;
+    border: 1px solid #aaa;
+    text-shadow: none;
+    border-radius: 4px;
+    transition: box-shadow 0.25s ease;
+    z-index: 2;
+}
+#homeb{
+    display: inline-block;
+}
+#go{
+    width: 50px;
+    height: 30px;
+    background-color: black;
+    color: whitesmoke;
+    border-radius: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+#center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 1000px;
+    height:700px;
+}
+#courseTable{
+    width: 500px;
+    height:500px;
+    right: 70px;
+    top:150px;
+    position: inherit;
+    
+}
+#div1{
+    position: inherit;
+    width: 400px;
+    height: 520px;
+    left: 90px;
+    top:140px;
+}
+#onlyimg{
+    
+    height:400px;
+}
+#onlyh{
+    margin: 0px;
+    margin-top: 5px;
+}
+#onlyp{
+    margin: 5px;
+}
+#indiv{
+    position: relative;
+    left: 100px;
+    margin: 0px;
+}
+
+.ch{
+    width: 125px;
+    border-radius: 5px;
+    padding: 2px;
+    margin: 5px;
+}
+.ch:hover{
+    background-color:rgba(215, 179, 179, 0.512);
+}
+#ticketprice{
+    width: 69%;
+    background-color: rgba(215, 179, 179, 0.512);
+    opacity: 0.5;
+    color: black;
+    position: absolute;
+    left:15%;
+    bottom: 0px;
+    border-radius: 10px;
+    margin: 20px 0px;
+}
+#tp{
+    margin: 5px;
+}
+#bookingpage{
+    width:80%;
+    height:80%;
+    background-color: whitesmoke;
+    position: absolute;
+    z-index: 50;
+    top:10%;
+    left: 10%;
+    border-radius: 50px;
+    display: none;
+}
+#bd{
+    position: absolute;
+    top:15%;
+    left:10%;
+}
+#bd2{
+    text-align: left;
+    position: absolute;
+    left: 45%;
+    top: 10%;
+}
+#bd3{
+    text-align: left;
+    position: absolute;
+    left: 45%;
+    top: 65%;
+    width: 110px;
+}
+#chair{
+    border-radius: 5px;
+    position: absolute;
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+}
+.seat{
+    width: 15px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+table{
+    display: none;
+    position: absolute;
+    z-index: 60;
+    top:45%;
+    left:48%;
+}
+th{
+    width: 20px;
+    height: 20px;
+}
+.seat:hover{
+    background-color:rgba(215, 179, 179, 0.512) ;
+}
+#bb{
+    position: absolute;
+    bottom: 10%;
+    left: 40%;
+}
+.bb2{
+    width: 50px;
+    height: 30px;
+    border-radius: 50px;
+    border-color: #aaa;
+    text-align: center;
+    font-weight: bold;
+    margin:0px 100px;
+}
+.color{
+    background-color:rgba(215, 179, 179, 0.512);
+}
+.ticketselect,.ticketselect1,.ticketselect2{
+    width: 100px;
+}
+.bbb{
+    height: 30px;
+    border-radius: 50px;
+    border-color: #aaa;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 5%;
+}
+.namebox{
+    background-color: whitesmoke;
+    /* border: 2px #aaa dashed; */
+    position: absolute;
+    left:100%;
+    top: 40%;
+    width: 200px;
+}
+#tt{
+    bottom: 10%;
+}
+.booking{
+    background-color: #aaa;
+}
+.booking:hover{
+    background-color:#aaa ;
+}
+.total{
+    margin-top: 15%;
+}
+.line{
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    cursor: pointer;
+    display: block;
+    padding: 16px;
+    position: fixed;
+    z-index: 2;
+}
+.line .menu,
+.line .menu::before,
+.line .menu::after{
+    background: #222;
+    content: '';
+    display: block;
+    height: 1px;
+    position: absolute;
+    transition: background ease .3s,top ease .3s .3s,transform ease .3s;
+    width: 20px;
+}
+.line .menu{
+    left: 18px;
+    top: 27px;
+}
+.line .menu::before{
+    top:-6px;
+}
+.line .menu::after{
+    top:6px;
+}
+#menu:checked+.line .menu{
+    background: transparent;
+}
+#menu:checked+.line .menu::before{
+    transform: rotate(45deg);
+}
+#menu:checked+.line .menu::after{
+    transform: rotate(-45deg);
+}
+#menu:checked+.line .menu::after,
+#menu:checked+.line .menu::before{
+    top: 0;
+    transition: top ease .3s,
+    transform ease .3s .3s;
+}
+#menu:checked ~ .menu-list {
+    width: 200px;
+}
+
+.menu-list {
+    width: 60px;
+    height: 400px;
+    background: transparent;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, .1); */
+    padding-top: 60px;
+    position: fixed;
+    z-index: 1;
+    transition: all .6s;
+    overflow: hidden;
+}
+/*
+選單向外推
+*/
+.menu-list ul {
+    list-style: none;
+    margin-left:70px;
+    padding: 0;
+}
+.menu-list ul>li{
+    display:block;
+    width:100px;
+}
+/*
+隱藏核許框
+*/
+input#menu {
+ display: none;
+}
+li{
+    
+    margin: 15px 0px;
+    text-align: left;
+}
+.nav-box{
+position: absolute;
+top: 10px;
+}
+.oc:link,.oc:visited{
+    text-decoration: none;
+    color:gray;
+}
+.oc:active,.oc:hover{
+    font-weight: bold;
+}
