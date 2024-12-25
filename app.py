@@ -889,6 +889,14 @@ def create_reservation():
     )
     conn.commit()
     conn.close()
+    try:
+        response = requests.post(
+            "https://asia-east1-winter-arena-443413-i7.cloudfunctions.net/send-email",
+            json={"reservation_data": data}  # 您可以調整這裡的 payload
+        )
+        print("Email service response:", response.status_code, response.text)
+    except requests.exceptions.RequestException as e:
+        print("Failed to call email service:", e)
     return jsonify({"success": True})  # 返回成功響應
 
 
