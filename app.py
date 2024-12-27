@@ -1557,9 +1557,14 @@ def message_location(event):
     }"""
 
     for i, cinema in enumerate(cinemasList[:3]):
-        name = cinema[0][1]
-        address = cinema[0][2]
-        encoded_address = quote(address)
+        cinema_info = cinema[0]  # 取得影城的詳細資訊（字典部分）
+        name = cinema_info.get('name', '名稱未知')  # 取得影城名稱
+        address = cinema_info.get('address', '地址未知')  # 取得影城地址
+        encoded_address = quote(address)  # 將地址編碼以用於 URL
+
+        # name = cinema[0][1]
+        # address = cinema[0][2]
+        # encoded_address = quote(address)
         flex_message = flex_message.replace(f"THEATER{i+1}", name)
         flex_message = flex_message.replace(
             f"URL{i+1}", f"https://maps.google.com/?q={encoded_address}")
