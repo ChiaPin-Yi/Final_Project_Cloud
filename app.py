@@ -771,7 +771,7 @@ def book_tickets(movie_id, user_name, reservation_date, reservation_time, seats)
                 "reservation_date": reservation_date,
                 "reservation_time": reservation_time,
                 "seats": ",".join(seats_list),
-                "ticket": seats
+                "tickets": seats
             }
         )
 
