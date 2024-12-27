@@ -246,9 +246,14 @@ def message_location(event):
     }"""
 
     for i, cinema in enumerate(cinemasList[:3]):
-        name = cinema[i][1]
-        address = cinema[i][2]
-        encoded_address = quote(address)
+        cinema_info = cinema[0]  # 取得影城的詳細資訊（字典部分）
+        name = cinema_info.get('name', '名稱未知')  # 取得影城名稱
+        address = cinema_info.get('address', '地址未知')  # 取得影城地址
+        encoded_address = quote(address)  # 將地址編碼以用於 URL
+
+        # name = cinema[i][1]
+        # address = cinema[i][2]
+        # encoded_address = quote(address)
         flex_message = flex_message.replace(f"THEATER{i+1}", name)
         flex_message = flex_message.replace(
             f"URL{i+1}", f"https://maps.google.com/?q={encoded_address}")
@@ -374,6 +379,9 @@ def find_nearby_cinemas(lat, lon):
     result = conn.execute(
         sqlalchemy.text("SELECT * FROM cinemas")
     )
+    # result = conn.execute(
+    #    sqlalchemy.text("SELECT id, name, latitude, longitude FROM cinemas")
+    # )
     selected_data = [dict(row._mapping) for row in result.fetchall()]
 
     # result = []
@@ -383,7 +391,8 @@ def find_nearby_cinemas(lat, lon):
     # selected_data = cursor.fetchall()
     nearby_cinemas = []
     for data in selected_data:
-        distance = get_distance(lat, lon, data[3], data[4])
+        # distance = get_distance(lat, lon, data[3], data[4])
+        distance = get_distance(lat, lon, data["Latitude"], data["Longitude"])
         if distance < 10:
             nearby_cinemas.append((data, distance))  # 同時儲存 data 和 distance
 
